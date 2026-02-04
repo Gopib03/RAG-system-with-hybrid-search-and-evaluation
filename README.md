@@ -639,7 +639,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **Gopinath B**
 - GitHub: [@gopib03](https://github.com/gopib03)
 - Email: gopib3456@gmail.com
-- LinkedIn: [Connect with me](https://linkedin.com/in/gopinath-b)
+- LinkedIn: [Connect with me]
+(https://www.linkedin.com/in/gopinath-b-818056270/)
 
 **Project Link:** [https://github.com/gopib03/Complete-RAG-system-with-hybrid-search-and-evaluation](https://github.com/gopib03/Complete-RAG-system-with-hybrid-search-and-evaluation)
 
