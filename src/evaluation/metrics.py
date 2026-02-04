@@ -2,6 +2,7 @@ from typing import List, Dict
 from anthropic import Anthropic
 import os
 import re
+import time
 
 class RAGEvaluator:
     def __init__(self):
@@ -27,18 +28,18 @@ Provide ONLY a number 0-5."""
             )
             
             score_text = response.content[0].text.strip()
-            score = float(re.search(r'\d+', score_text).group())
+            score = float(re.search(r'\d+\.?\d*', score_text).group())
             return min(max(score, 0), 5)
         except:
             return 0.0
     
     def faithfulness(self, answer: str, context_chunks: List[str]) -> float:
-        """Check if answer is grounded in context"""
-        context = "\n\n".join(context_chunks)
+        """Check if answer is grounded in context (0-1)"""
+        context = "\n\n".join(context_chunks[:3])  # Use top 3 chunks
         
-        prompt = f"""Does the answer contain ANY information NOT in the context?
+        prompt = f"""Does the answer contain information NOT in the context?
 
-Context: {context}
+Context: {context[:2000]}
 
 Answer: {answer}
 
@@ -56,24 +57,63 @@ Reply ONLY 'yes' or 'no'."""
         except:
             return 0.0
     
+    def context_precision(self, question: str, context_chunks: List[str]) -> float:
+        """What % of retrieved chunks are relevant? (0-1)"""
+        if not context_chunks:
+            return 0.0
+        
+        relevant_count = 0
+        
+        for chunk in context_chunks:
+            prompt = f"""Is this context relevant for answering the question?
+
+Question: {question}
+Context: {chunk[:500]}
+
+Reply ONLY 'yes' or 'no'."""
+            
+            try:
+                response = self.client.messages.create(
+                    model="claude-3-haiku-20240307",
+                    max_tokens=10,
+                    messages=[{"role": "user", "content": prompt}]
+                )
+                
+                result = response.content[0].text.strip().lower()
+                if 'yes' in result:
+                    relevant_count += 1
+            except:
+                continue
+        
+        return relevant_count / len(context_chunks)
+    
     def evaluate_response(
         self,
         question: str,
         answer: str,
-        retrieved_chunks: List[str]
+        retrieved_chunks: List[str],
+        measure_latency: bool = False
     ) -> Dict:
         """Run all evaluation metrics"""
-        print(f"  Evaluating: {question[:40]}...")
+        
+        start_time = time.time() if measure_latency else None
+        
+        print(f"  Evaluating: {question[:50]}...")
         
         metrics = {
             'answer_relevancy': self.answer_relevancy(question, answer),
-            'faithfulness': self.faithfulness(answer, retrieved_chunks)
+            'faithfulness': self.faithfulness(answer, retrieved_chunks),
+            'context_precision': self.context_precision(question, retrieved_chunks[:5])
         }
         
         # Overall score (weighted average)
         metrics['overall_score'] = (
-            metrics['answer_relevancy'] / 5 * 0.5 +
-            metrics['faithfulness'] * 0.5
+            metrics['answer_relevancy'] / 5 * 0.4 +
+            metrics['faithfulness'] * 0.3 +
+            metrics['context_precision'] * 0.3
         )
+        
+        if measure_latency:
+            metrics['evaluation_time_s'] = time.time() - start_time
         
         return metrics
