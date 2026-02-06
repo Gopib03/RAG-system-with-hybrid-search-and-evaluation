@@ -34,7 +34,7 @@ A production-ready RAG system that combines semantic vector search (FAISS) with 
 
 ### Prerequisites
 
-- Python 3.11+
+- Python 3.10+
 - Docker & Docker Compose
 - Anthropic API key ([Get one free](https://console.anthropic.com/))
 
@@ -702,4 +702,5 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+
 SOFTWARE.
