@@ -210,7 +210,6 @@ curl -X POST "http://localhost:8000/query" \
     "top_k": 5
   }'
 ```
-
 ### Response Format
 ```json
 {
@@ -341,7 +340,6 @@ rag-evaluation-system/
 - Honest uncertainty ("I don't have enough information")
 
 ---
-
 ## 📈 Monitoring & Observability
 
 ### Prometheus Metrics
