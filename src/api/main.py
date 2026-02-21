@@ -26,6 +26,7 @@ app = FastAPI(
     version="1.0.0"
 )
 
+
 # Add CORS
 app.add_middleware(
     CORSMiddleware,
@@ -192,3 +193,5 @@ async def favicon():
     """Return a simple favicon or 204 No Content"""
     from fastapi import Response
     return Response(status_code=204)
+
+#add more code to this in coming months 
