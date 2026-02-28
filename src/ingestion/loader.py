@@ -6,6 +6,7 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 class DocumentLoader:
     def __init__(self, data_dir: str = "data/raw"):
         self.data_dir = Path(data_dir)
