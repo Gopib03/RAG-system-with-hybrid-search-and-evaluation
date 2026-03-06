@@ -12,6 +12,8 @@ class AnswerGenerator:
         self.model = model
         self.system_prompt = """You are a helpful AI assistant that answers questions based on provided context.
 
+
+
 Rules:
 1. Only use information from the provided context
 2. If the answer is not in the context, say "I don't have enough information"
