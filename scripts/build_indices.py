@@ -9,6 +9,7 @@ print("\n" + "="*60)
 print("🚀 BUILDING SEARCH INDICES")
 print("="*60)
 
+
 print("\n📂 Loading chunks from disk...")
 with open('data/processed/chunks.json') as f:
     chunks = json.load(f)
