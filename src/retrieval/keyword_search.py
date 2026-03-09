@@ -7,6 +7,7 @@ class KeywordSearch:
     def __init__(self):
         self.bm25 = None
         self.chunks = None
+        
     
     def build_index(self, chunks: List[Dict]):
         self.chunks = chunks
