@@ -15,6 +15,7 @@ class VectorSearch:
         self.chunks = None
         print(f"✅ Model loaded (dimension: {self.dimension})")
     
+    
     def create_embeddings(self, chunks: List[Dict]) -> np.ndarray:
         texts = [chunk['content'] for chunk in chunks]
         
